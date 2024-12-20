@@ -1,5 +1,7 @@
 import Fastify from "fastify";
 import FastifyVite from "@fastify/vite";
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Fastify + React + Vite configuration
 const server = Fastify({
@@ -9,6 +11,14 @@ const server = Fastify({
     },
   },
 });
+
+// Check for the OpenAI API key
+if (!process.env.OPENAI_API_KEY) {
+  console.error("Error: OPENAI_API_KEY is not defined in the environment variables.");
+  process.exit(1); // Exit the process if the API key is not found
+} else {
+  console.log("API key found. Proceeding with server setup...");
+}
 
 await server.register(FastifyVite, {
   root: import.meta.url,
@@ -26,7 +36,7 @@ server.get("/token", async () => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "gpt-4o-realtime-preview-2024-12-17",
+      model: "gpt-4o-mini-realtime-preview-2024-12-17",
       voice: "verse",
     }),
   });
