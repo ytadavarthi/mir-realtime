@@ -20,6 +20,11 @@ function Event({ event, timestamp }) {
         <div className="text-sm text-gray-500">
           {isClient ? "client:" : "server:"}
           &nbsp;{event.type} | {timestamp}
+          {event.type === "response.audio_transcript.done" && (
+            <div className="mt-2 text-gray-700">
+              Transcript: {event.transcript}
+            </div>
+          )}
         </div>
       </div>
       <div
